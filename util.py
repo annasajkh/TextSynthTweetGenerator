@@ -15,7 +15,6 @@ def get_tweet(username : str) -> str:
   config.Filter_retweets = True
   config.Store_object = True
   config.Hide_output = True
-  config.Limit = 1000
 
   twint.run.Search(config)
 
