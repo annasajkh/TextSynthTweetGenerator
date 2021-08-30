@@ -31,9 +31,9 @@ def get_tweet(username : str) -> str:
     text = re.sub("\n", " ", text).strip()
 
     if text.strip() != "":
-      result += f"tweet: {text}\n"
+      result += f"@{username} {text}\n"
   
-  return result
+  return result + f"@{username}"
 
 def generate_tweet(username : str) -> str:
   tweet_text : str = get_tweet(username)
@@ -49,6 +49,6 @@ def generate_tweet(username : str) -> str:
   resp : Response = requests.post("https://bellard.org/textsynth/api/v1/engines/gptj_6B/completions",data=json.dumps(payload, ensure_ascii=False).encode("utf-8"))
 
   text = filter(lambda x: x != "",[chunk for chunk in resp.text.split("\n")])
-  text = "".join([json.loads(chunk)["text"] for chunk in text]).strip()
+  text = f"@{username} " + "".join([json.loads(chunk)["text"] for chunk in text]).strip()
 
   return "\n".join([f"<p>{tweet}</p>" for tweet in text.split("\n")])
