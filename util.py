@@ -37,9 +37,7 @@ def get_tweet(username : str) -> str:
   return result + f"@{username}"
 
 def generate_tweet(username : str) -> str:
-  tweet_text : str = f"this is tweets from @{username}\n" + get_tweet(username)
-
-  print(tweet_text)
+  tweet_text : str = f"this is tweets from @{username} and they will never ever tweet the same thing\n" + get_tweet(username)
   
   headers= {
       "Authorization": os.environ["api_key"]
@@ -48,7 +46,7 @@ def generate_tweet(username : str) -> str:
   payload : dict  = {
       "prompt": tweet_text,
       "temperature": 1.0,
-      "top_k": 1000, 
+      "top_k": 40, 
       "top_p": 1.0, 
       "seed": 0,
       "stop": "\n"
