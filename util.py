@@ -36,7 +36,7 @@ def get_tweet(username : str) -> str:
   
   result = "\n".join(list(set(result.split("\n"))))
   
-  return result + f"@{username}"
+  return result + f"\n@{username}"
 
 def generate_tweet(username : str) -> str:
   tweet_text : str = f"this is tweets from @{username}\n" + get_tweet(username)
