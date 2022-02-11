@@ -6,9 +6,9 @@ authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-twint = "^2.1.20"
 uvicorn = "^0.15.0"
 fastapi = "^0.68.1"
+twint = "^2.1.20"
 
 [tool.poetry.dev-dependencies]
 

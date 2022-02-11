@@ -1,11 +1,11 @@
 from typing import List
 
-
 from twint import output, tweet
 import twint
 import re
 import requests
 import json
+import os
 from requests.models import Response
 
 
@@ -36,19 +36,24 @@ def get_tweet(username : str) -> str:
   return result + f"@{username}"
 
 def generate_tweet(username : str) -> str:
-  tweet_text : str = get_tweet(username)
+  tweet_text : str = f"this is tweets from @{username}\n" + get_tweet(username)
+
+  print(tweet_text)
+  
+  headers= {
+      "Authorization": os.environ["api_key"]
+  }
 
   payload : dict  = {
     "prompt": tweet_text,
-    "temperature": 0.9,
+    "temperature": 0.8,
     "top_k": 40, 
-    "top_p": 0.9, 
+    "top_p": 1.0, 
     "seed": 0
   }
+  
+  resp : Response = requests.post("https://api.textsynth.com/v1/engines/gptj_6B/completions",data=json.dumps(payload, ensure_ascii=False).encode("utf-8"), headers=headers)
 
-  resp : Response = requests.post("https://bellard.org/textsynth/api/v1/engines/gptj_6B/completions",data=json.dumps(payload, ensure_ascii=False).encode("utf-8"))
+  text = json.loads(resp.text)["text"]
 
-  text = filter(lambda x: x != "",[chunk for chunk in resp.text.split("\n")])
-  text = f"@{username} " + "".join([json.loads(chunk)["text"] for chunk in text]).strip()
-
-  return "\n".join([f"<p>{tweet}</p>" for tweet in text.split("\n")])
+  return "\n".join([f"<p>@{username} {tweet}</p>" for tweet in text.split("\n")])

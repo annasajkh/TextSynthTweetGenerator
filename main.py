@@ -1,6 +1,6 @@
 import os
-os.system("pip install -U --upgrade -e git+https://github.com/twintproject/twint.git@origin/master#egg=twint")
-os.system("pip uninstall dataclasses -y")
+os.system("pip3 install --upgrade git+https://github.com/twintproject/twint.git@origin/master#egg=twint")
+os.system("pip3 uninstall dataclasses -y")
 
 from fastapi import FastAPI, File, UploadFile, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,8 +9,6 @@ from fastapi.responses import HTMLResponse
 
 import uvicorn
 import util
-
-
 
 
 app = FastAPI()
