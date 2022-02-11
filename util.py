@@ -34,13 +34,12 @@ def get_tweet(username : str) -> str:
     if text.strip() != "":
       result += f"@{username} {text}\n"
   
+  result = "\n".join(list(set(result.split("\n"))))
+  
   return result + f"@{username}"
 
 def generate_tweet(username : str) -> str:
-  tweets = get_tweet(username)
-  tweets = "\n".join(list(set(tweets.split("\n"))))
-  
-  tweet_text : str = f"this is tweets from @{username}\n" + tweets
+  tweet_text : str = f"this is tweets from @{username}\n" + get_tweet(username)
 
   print(tweet_text)
   
