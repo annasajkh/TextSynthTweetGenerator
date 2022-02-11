@@ -11,6 +11,7 @@ from requests.models import Response
 
 
 def get_tweet(username : str) -> str:
+  time.sleep(1)
   config : twint.Config = twint.Config()
   config.Username = username
   config.Filter_retweets = True
@@ -37,7 +38,6 @@ def get_tweet(username : str) -> str:
   return "\n".join(list(set(result.split("\n")))) + f"\n@{username}"
 
 def generate_tweet(username : str) -> str:
-  time.sleep(3)
   
   tweet_text : str = f"this is tweets from @{username}\n" + get_tweet(username)
 
