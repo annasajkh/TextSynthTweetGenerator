@@ -34,11 +34,11 @@ def get_tweet(username : str) -> str:
     if text.strip() != "":
       result += f"@{username} {text}\n"
   
-  return result + f"@{username}"
+  return result + f"new and unique tweet base of above tweets:\n@{username}"
 
 def generate_tweet(username : str) -> str:
-  tweet_text : str = f"this is tweets from @{username} and they will never ever tweet the same thing\n" + get_tweet(username)
-  
+  tweet_text : str = f"this is tweets from @{username}:\n" + get_tweet(username)
+  print(tweet_text)
   headers= {
       "Authorization": os.environ["api_key"]
   }
