@@ -45,22 +45,17 @@ def generate_tweet(username : str) -> str:
       "Authorization": os.environ["api_key"]
   }
 
-  text = tweet_text.split("\n")[0]
+  payload : dict  = {
+      "prompt": tweet_text,
+      "temperature": 5.0,
+      "top_k": 40, 
+      "top_p": 1.0, 
+      "seed": 0,
+      "stop": "\n"
+    }
+    
+  resp : Response = requests.post("https://api.textsynth.com/v1/engines/gptj_6B/completions",data=json.dumps(payload, ensure_ascii=False).encode("utf-8"), headers=headers)
 
-  while f"@{username} " + text.strip() in tweet_text.split("\n") and text.strip() != "":
-      payload : dict  = {
-        "prompt": tweet_text,
-        "temperature": 1.0,
-        "top_k": 40, 
-        "top_p": 1.0, 
-        "seed": 0,
-        "stop": "\n"
-      }
-      
-      resp : Response = requests.post("https://api.textsynth.com/v1/engines/gptj_6B/completions",data=json.dumps(payload, ensure_ascii=False).encode("utf-8"), headers=headers)
-
-      text = json.loads(resp.text)["text"]
-      
-      time.sleep(2)
+  text = json.loads(resp.text)["text"]
 
   return "\n".join([f"<p>@{username} {tweet}</p>" for tweet in text.split("\n")])
