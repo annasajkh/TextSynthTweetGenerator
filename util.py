@@ -47,8 +47,8 @@ def generate_tweet(username : str) -> str:
 
   payload : dict  = {
       "prompt": tweet_text,
-      "temperature": 5.0,
-      "top_k": 40, 
+      "temperature": 1.0,
+      "top_k": 1000, 
       "top_p": 1.0, 
       "seed": 0,
       "stop": "\n"
