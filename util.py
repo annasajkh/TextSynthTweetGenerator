@@ -1,55 +1,16 @@
-from typing import List
-
-from twint import output, tweet
-import twint
-import re
 import requests
 import json
 import os
-import time
 from requests.models import Response
 
-
-def get_tweet(username : str) -> str:
-  time.sleep(1)
-  config : twint.Config = twint.Config()
-  config.Username = username
-  config.Filter_retweets = True
-  config.Store_object = True
-  config.Hide_output = True
-
-  twint.run.Search(config)
-
-  tweets : List[tweet.tweet] = output.tweets_list
-  result : str = ""
-
-  print(f"scraped: {len(tweets)}")
-
-  for t in tweets:
-    if "@" in t.tweet:
-      continue
-
-    text = re.sub("https://(.*)", "", t.tweet)
-    text = re.sub("\n", " ", text).strip()
-
-    if text.strip() != "":
-      result += f"@{username} {text}\n"
-  
-  return "\n".join(list(set(result.split("\n")))) + f"\n@{username}"
-
-def generate_tweet(username : str) -> str:
-  
-  tweet_text : str = f"this is tweets from @{username}\n" + get_tweet(username)
-
-  print(tweet_text)
-  
+def generate_tweet(username : str, tweet_text : str) -> str:
   headers= {
       "Authorization": os.environ["api_key"]
   }
 
   payload : dict  = {
       "prompt": tweet_text,
-      "temperature": 1.0,
+      "temperature": 0.8,
       "top_k": 40, 
       "top_p": 1.0, 
       "seed": 0,
